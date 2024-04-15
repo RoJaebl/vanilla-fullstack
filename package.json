@@ -1,0 +1,22 @@
+{
+  "name": "vanilla-fullstack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RoJaebl/vanilla-fullstack.git"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RoJaebl/vanilla-fullstack/issues"
+  },
+  "homepage": "https://github.com/RoJaebl/vanilla-fullstack#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
