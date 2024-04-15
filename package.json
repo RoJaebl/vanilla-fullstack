@@ -18,5 +18,9 @@
   "homepage": "https://github.com/RoJaebl/vanilla-fullstack#readme",
   "dependencies": {
     "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4"
   }
 }
