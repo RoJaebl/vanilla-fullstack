@@ -2,13 +2,12 @@
   "name": "vanilla-fullstack",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RoJaebl/vanilla-fullstack.git"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node index.js"
+    "dev": "nodemon -L --exec babel-node src/server.js"
   },
   "author": "",
   "license": "MIT",
