@@ -1,7 +1,9 @@
 doctype html
-htmle(lang="ko")
+html(lang="ko")
   head
     title #{pageTitle} | Vanilla Fullstack
+    link(rel="stylesheet" href="https://unpkg.com/mvp.css")
   body
-    block content
+    main
+      block content
   include partials/footer.pug
