@@ -2,7 +2,6 @@ import Video from "../models/Video";
 
 export const home = async (req, res) => {
   const videos = await Video.find({}).exec();
-  console.log(videos);
   return res.render("home", { pageTitle: "Home", videos });
 };
 export const watch = async (req, res) => {
@@ -33,7 +32,9 @@ export const postEdit = async (req, res) => {
     description,
     hashtags: hashtags
       .split(/(?:, +)|(?:,)/)
-      .map((word) => (word.startsWith("#") ? word : `#${word}`)),
+      .map((word) =>
+        word.startsWith("#") ? word.replace(/^(#+)/, "#") : `#${word}`
+      ),
   });
   return res.redirect(`/videos/${id}`);
 };
@@ -47,7 +48,7 @@ export const postUpload = async (req, res) => {
     await Video.create({
       title,
       description,
-      hashtags: hashtags.split(/(?:, +)|(?:,)/).map((word) => `#${word}`),
+      hashtags,
     });
     return res.redirect("/");
   } catch (err) {
