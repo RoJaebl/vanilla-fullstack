@@ -1,6 +1,6 @@
 import express from "express";
 import morgan from "morgan";
-import global from "./routers/globalRouter";
+import root from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 
@@ -11,7 +11,7 @@ app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
-app.use("/", global);
+app.use("/", root);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
 
