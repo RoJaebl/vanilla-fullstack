@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/RoJaebl/vanilla-fullstack#readme",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.19.2",
     "mongoose": "^8.3.2",
     "morgan": "^1.10.0",
