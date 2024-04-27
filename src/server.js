@@ -1,10 +1,10 @@
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
-import root from "./routers/rootRouter";
+import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
-import rootRouter from "./routers/rootRouter";
+import { localsMiddleware } from "./middlewares";
 
 const app = express();
 const logger = morgan("dev");
@@ -20,19 +20,8 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use((req, res, next) => {
-  req.sessionStore.all((err, sesstions) => {
-    console.log(sesstions);
-    next();
-  });
-});
 
-app.get("/add-one", (req, res, next) => {
-  req.session.counter += 1;
-  console.log(req.sessionStore);
-  console.log(req.session);
-  return res.send(`${req.session.id}\n${req.session.counter}`);
-});
+app.use(localsMiddleware);
 app.use("/", rootRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
