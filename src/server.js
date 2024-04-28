@@ -19,6 +19,9 @@ app.use(
     secret: "Hello!",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      maxAge: 5000,
+    },
     store: mongoStore.create({
       mongoUrl: "mongodb://127.0.0.1:27017/vanilla_fullstack",
     }),
