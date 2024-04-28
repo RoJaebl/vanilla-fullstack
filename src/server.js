@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
+import mongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
@@ -18,6 +19,9 @@ app.use(
     secret: "Hello!",
     resave: true,
     saveUninitialized: true,
+    store: mongoStore.create({
+      mongoUrl: "mongodb://127.0.0.1:27017/vanilla_fullstack",
+    }),
   })
 );
 
