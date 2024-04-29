@@ -16,14 +16,14 @@ app.use(logger);
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: "Hello!",
+    secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
       maxAge: 5000,
     },
     store: mongoStore.create({
-      mongoUrl: "mongodb://127.0.0.1:27017/vanilla_fullstack",
+      mongoUrl: process.env.DB_URL,
     }),
   })
 );
