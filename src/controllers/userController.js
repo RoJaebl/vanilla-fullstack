@@ -75,14 +75,27 @@ export const finishGithubLogin = async (req, res) => {
     code: req.query.code,
   };
   const params = new URLSearchParams(config).toString();
-  const data = await fetch(`${baseUrl}?${params}`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-    },
-  });
-  const json = await data.json();
-  console.log(json);
+  const tokenRequest = await (
+    await fetch(`${baseUrl}?${params}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+  ).json();
+  if ("access_token" in tokenRequest) {
+    const { access_token } = tokenRequest;
+    const userRequest = await (
+      await fetch("https://api.github.com/user", {
+        headers: {
+          Authorization: `token ${access_token}`,
+        },
+      })
+    ).json();
+    console.log(userRequest);
+  } else {
+    return res.redirect("/login");
+  }
 };
 export const edit = (req, res) => res.send("Edit User");
 export const remove = (req, res) => res.send("Remove User");
