@@ -68,6 +68,7 @@ export const startGithubLogin = (req, res) => {
   return res.redirect(`${baseUrl}?${params}`);
 };
 export const finishGithubLogin = async (req, res) => {
+  // Github user API 토큰을 요청한다.
   const baseUrl = "https://github.com/login/oauth/access_token";
   const config = {
     client_id: process.env.GH_CLIENT,
@@ -83,6 +84,7 @@ export const finishGithubLogin = async (req, res) => {
       },
     })
   ).json();
+  // 엑세스 토큰으로 사용자 정보와 이메일을 요청한다.
   if ("access_token" in tokenRequest) {
     const { access_token } = tokenRequest;
     const apiUrl = "https://api.github.com";
@@ -101,10 +103,30 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
-    const email = emailData.find((email) => email.primary && email.verified);
-    console.log(email);
-    if (!email) {
+    const emailObj = emailData.find((email) => email.primary && email.verified);
+    console.log(emailObj);
+    if (!emailObj) {
       return res.redirect("/login");
+    }
+    // DB에서 인증된 Github 이메일과 일치한 정보가 있다면 로그인한다.
+    const existingUser = await User.findOne({ email: emailObj.email });
+    if (existingUser) {
+      req.session.loggedIn = true;
+      req.session.user = existingUser;
+      return res.redirect("/");
+    } else {
+      // DB에 사용자가 없다면 생성하고 로그인
+      const user = await User.create({
+        name: userData.name,
+        username: userData.login,
+        email: emailObj.email,
+        password: "",
+        socialOnly: true,
+        location: userData.location,
+      });
+      req.session.loggedIn = true;
+      req.session.user = user;
+      return res.redirect("/");
     }
   } else {
     return res.redirect("/login");
