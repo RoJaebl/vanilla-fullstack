@@ -147,7 +147,7 @@ export const postEdit = async (req, res) => {
   const existsUsername =
     _username !== username && (await User.exists({ username }));
   if (existsEmail || existsUsername) {
-    return res.render("edit-profile", {
+    return res.status(400).render("edit-profile", {
       pageTitle: "Edit Profile",
       errorMessage: "There is a duplicate in your email address and username.",
     });
@@ -164,5 +164,15 @@ export const postEdit = async (req, res) => {
   );
   req.session.user = updatedUser;
   return res.redirect("/users/edit");
+};
+export const getChangePasswoard = (req, res) => {
+  if (req.session.user.socialOnly) {
+    return res.redirect("/");
+  }
+  return res.render("users/change-password", { pageTitle: "Change Password" });
+};
+export const postChangePasswoard = (req, res) => {
+  // send notification
+  return res.redirect("/");
 };
 export const see = (req, res) => res.send("See User");
