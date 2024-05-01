@@ -139,11 +139,30 @@ export const getEdit = (req, res) => {
 export const postEdit = async (req, res) => {
   const {
     session: {
-      user: { _id },
+      user: { _id, email: _email, username: _username },
     },
   } = req;
   const { name, email, username, location } = req.body;
-  await User.findByIdAndUpdate(_id, { name, email, username, location });
-  return res.render("edit-profile");
+  const existsEmail = _email !== email && (await User.exists({ email }));
+  const existsUsername =
+    _username !== username && (await User.exists({ username }));
+  if (existsEmail || existsUsername) {
+    return res.render("edit-profile", {
+      pageTitle: "Edit Profile",
+      errorMessage: "There is a duplicate in your email address and username.",
+    });
+  }
+  const updatedUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      name,
+      email,
+      username,
+      location,
+    },
+    { new: true }
+  );
+  req.session.user = updatedUser;
+  return res.redirect("/users/edit");
 };
 export const see = (req, res) => res.send("See User");
