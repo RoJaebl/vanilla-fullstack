@@ -29,6 +29,6 @@ userRouter
   .all(protectorMiddleware)
   .get(getChangePasswoard)
   .post(postChangePasswoard);
-userRouter.get(":id", see);
+userRouter.get("/:id", see);
 
 export default userRouter;
