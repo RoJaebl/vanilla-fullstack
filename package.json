@@ -7,8 +7,8 @@
     "url": "git+https://github.com/RoJaebl/vanilla-fullstack.git"
   },
   "scripts": {
-    "dev": "nodemon -L --exec babel-node src/init.js",
-    "assets": "webpack --config webpack.config.js"
+    "dev:server": "nodemon -L",
+    "dev:assets": "webpack"
   },
   "author": "",
   "license": "MIT",
