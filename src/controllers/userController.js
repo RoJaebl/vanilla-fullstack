@@ -23,6 +23,7 @@ export const postJoin = async (req, res) => {
     await User.create({
       name,
       username,
+      avatarUrl: "",
       email,
       password,
       location,

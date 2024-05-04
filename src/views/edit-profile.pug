@@ -4,6 +4,8 @@ block content
   div.profile__data
     if loggedInUser.socialOnly
       img(src=loggedInUser.avatarUrl).avatar
+    else if loggedInUser.avatarUrl === ""
+      div 😎
     else
       img(src="/" + loggedInUser.avatarUrl).avatar
     h3=user.name
