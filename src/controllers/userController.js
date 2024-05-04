@@ -1,3 +1,4 @@
+import { populate } from "dotenv";
 import User from "../models/User";
 import bcrypt from "bcrypt";
 
@@ -111,7 +112,7 @@ export const finishGithubLogin = async (req, res) => {
     if (!user) {
       // DB에 사용자가 없다면 생성하고 로그인
       user = await User.create({
-        avatarUrl: userData.avatar_rul,
+        avatarUrl: userData.avatar_url,
         name: userData.name,
         username: userData.login,
         email: emailObj.email,
@@ -132,7 +133,10 @@ export const logout = (req, res) => {
   return res.redirect("/");
 };
 export const getEdit = (req, res) => {
-  return res.render("edit-profile", { pageTitle: "Edit Profile" });
+  const {
+    session: { user },
+  } = req;
+  return res.render("edit-profile", { pageTitle: "Edit Profile", user });
 };
 export const postEdit = async (req, res) => {
   const {
@@ -141,7 +145,6 @@ export const postEdit = async (req, res) => {
     },
     file,
   } = req;
-  console.log(file);
   const { name, email, username, location } = req.body;
   const existsEmail = _email !== email && (await User.exists({ email }));
   const existsUsername =
@@ -200,7 +203,13 @@ export const postChangePasswoard = async (req, res) => {
 };
 export const see = async (req, res) => {
   const { id } = req.params;
-  const user = await User.findById(id).populate("videos");
+  const user = await User.findById(id).populate({
+    path: "videos",
+    populate: {
+      path: "owner",
+      model: "User",
+    },
+  });
   if (!user) {
     return res.status(404).render("404", { pageTitle: "User not found." });
   }
