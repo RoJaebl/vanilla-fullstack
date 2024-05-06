@@ -3,6 +3,8 @@ extends base
 block content
   div#videoContainer
     video(src="/" + video.fileUrl)
+    div#videoPlayState
+      i.fa-solid.fa-play.fa-5x
     div#videoControls.videoControls
       div.videoControls__play
         span#play.videoControls__playBtn

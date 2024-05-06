@@ -4,6 +4,20 @@
   video {
     width: 100%;
   }
+  #videoPlayState {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    &.showing {
+      opacity: 0.8;
+    }
+  }
   .videoControls {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
