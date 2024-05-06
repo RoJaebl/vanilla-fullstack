@@ -109,7 +109,6 @@ const handleFullScreen = () => {
 const handleMouseMove = () => {
   controls.cycle();
 };
-
 const handleMouseLeave = () => {
   controls.hide();
 };
@@ -125,6 +124,10 @@ const handlePlayKeyPress = (e) => {
     playState.cycle();
   }
 };
+const handleEnded = async (e) => {
+  const { id } = videoContainer.dataset;
+  fetch(`/api/videos/${id}/views`, { method: "POST" });
+};
 
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
@@ -137,3 +140,4 @@ videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
 videoContainer.addEventListener("click", handlePlayContainer);
 document.addEventListener("keypress", handlePlayKeyPress);
+video.addEventListener("ended", handleEnded);
