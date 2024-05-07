@@ -33,5 +33,6 @@ app.use("/", rootRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
 app.use("/api", apiRouter);
+app.use("/ffmpeg", express.static("node_modules/@ffmpeg"));
 
 export default app;
