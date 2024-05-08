@@ -5,8 +5,32 @@ const handleSubmit = (e) => {
   const textarea = form.querySelector("textarea");
   e.preventDefault();
   const text = textarea.value;
-  const video = videoContainer.dataset.id;
+  const videoId = videoContainer.dataset.id;
+  if (text) {
+    return fetch(`/api/videos/${videoId}/comment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text }),
+    });
+  }
 };
+// const handleSubmit = (e) => {
+//   const textarea = form.querySelector("textarea");
+//   e.preventDefault();
+//   const text = textarea.value;
+//   const videoId = videoContainer.dataset.id;
+//   if (text) {
+//     return fetch(`/api/videos/${videoId}/comment`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({ text }),
+//     });
+//   }
+// };
 
 if (form) {
   form.addEventListener("submit", handleSubmit);

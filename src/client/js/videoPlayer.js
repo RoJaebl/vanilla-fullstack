@@ -118,6 +118,7 @@ const handlePlayContainer = () => {
   playState.cycle();
 };
 const handlePlayKeyPress = (e) => {
+  console.log(e);
   if (e.code === "Space") {
     playClick();
     controls.cycle();
