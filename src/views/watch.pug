@@ -35,12 +35,14 @@ block content
       form.video__commetns-form#commentForm
         textarea(cols="30", rows="10", placeholder="Write a nice comment...")
         button Add Comment
-  div.video__comments
+  div.video__comments#comments
     ul 
       each comment in video.comments.reverse()
-        li.video__comment
+        li.video__comment(data-id=comment.id)
           i.fas.fa-comment
-          span  #{comment.text}
+          span #{comment.text}
+          if String(loggedInUser._id) === String(comment.owner)
+            i.fas.fa-x
 block scripts 
   script(src="/static/js/videoPlayer.js")
   if loggedIn

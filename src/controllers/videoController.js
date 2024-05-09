@@ -1,7 +1,6 @@
 import Video from "../models/Video";
 import Comment from "../models/Comment";
 import User from "../models/User";
-import flash from "express-flash";
 
 export const home = async (req, res) => {
   const videos = await Video.find({})
@@ -126,7 +125,9 @@ export const registerView = async (req, res) => {
 };
 export const createComment = async (req, res) => {
   const {
-    session: { user },
+    session: {
+      user: { _id: userId },
+    },
     body: { text },
     params: { id },
   } = req;
@@ -134,12 +135,45 @@ export const createComment = async (req, res) => {
   if (!video) {
     return res.sendStatus(404);
   }
-  const comment = await Comment.create({
+  const user = await User.findById(userId);
+  if (!user) {
+    return res.sendStatus(404);
+  }
+  const { _id: newCommentId } = await Comment.create({
     text,
-    owner: user._id,
+    owner: userId,
     video: id,
   });
-  video.comments.push(comment._id);
+  video.comments.push(newCommentId);
   await video.save();
+  user.comments.push(newCommentId);
+  await user.save();
+  return res.status(201).json({ id: newCommentId });
+};
+export const removeComment = async (req, res) => {
+  const {
+    session: {
+      user: { _id: userId },
+    },
+    body: { id: commentId },
+    params: { id: videoId },
+  } = req;
+  const comment = Comment.findById(commentId).populate("onwer");
+  if (String(userId) !== String(comment.owner._id)) {
+    return res.status(403).redirect("/");
+  }
+  const video = await Video.findById(videoId);
+  if (!video) {
+    return res.sendStatus(404);
+  }
+  const user = await User.findById(userId);
+  if (!user) {
+    return res.sendStatus(404);
+  }
+  video.comments.splice(video.comments.indexOf(commentId), 1);
+  await video.save();
+  user.comments.splice(user.comments.indexOf(commentId), 1);
+  await user.save();
+  await Comment.findByIdAndDelete(commentId);
   return res.sendStatus(201);
 };

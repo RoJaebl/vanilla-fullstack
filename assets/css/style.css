@@ -452,11 +452,20 @@ form label {
   margin-top: 20px;
 }
 .video__comments .video__comment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
   border-radius: 9999px;
   background-color: white;
   color: black;
   margin-bottom: 10px;
+}
+.video__comments .video__comment span {
+  flex-grow: 1;
+}
+.video__comments .video__comment > :nth-child(1) {
+  margin-right: 10px;
 }
 
 a {
