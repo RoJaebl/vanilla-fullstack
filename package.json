@@ -7,6 +7,8 @@
     "url": "git+https://github.com/RoJaebl/vanilla-fullstack.git"
   },
   "scripts": {
+    "start": "node build/init.js",
+    "build:server": "babel src -d build",
     "dev:server": "nodemon -L",
     "dev:assets": "webpack"
   },
@@ -33,6 +35,7 @@
     "regenerator-runtime": "^0.14.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.24.5",
     "@babel/core": "^7.24.4",
     "@babel/node": "^7.23.9",
     "@babel/preset-env": "^7.24.4",
