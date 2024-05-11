@@ -9,9 +9,17 @@ const s3 = new aws.S3({
   },
 });
 
-const multerUploader = multers3({
+const isProduction = process.env.NODE_ENV === "production";
+
+const s3ImageUploader = multers3({
   s3,
-  bucket: "rojaebl-vanilla-fullstack",
+  bucket: "rojaebl-vanilla-fullstack/images",
+  acl: "public-read",
+});
+
+const s3VideoUploader = multers3({
+  s3,
+  bucket: "rojaebl-vanilla-fullstack/videos",
   acl: "public-read",
 });
 
@@ -20,6 +28,7 @@ export const localsMiddleware = (req, res, next) => {
   res.locals.loggedIn = Boolean(loggedIn);
   res.locals.siteName = "Vanilla Fullstack";
   res.locals.loggedInUser = user || {};
+  res.locals.isProduction = isProduction;
   next();
 };
 
@@ -46,12 +55,12 @@ export const avatarUpload = multer({
   limits: {
     fileSize: 1_000_000,
   },
-  storage: multerUploader,
+  storage: isProduction ? s3ImageUploader : undefined,
 });
 export const videoUpload = multer({
   dest: "uploads/videos/",
   limits: {
     fileSize: 10_000_000,
   },
-  storage: multerUploader,
+  storage: isProduction ? s3VideoUploader : undefined,
 });
