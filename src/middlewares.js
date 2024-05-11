@@ -12,6 +12,7 @@ const s3 = new aws.S3({
 const multerUploader = multers3({
   s3,
   bucket: "rojaebl-vanilla-fullstack",
+  acl: "public-read",
 });
 
 export const localsMiddleware = (req, res, next) => {

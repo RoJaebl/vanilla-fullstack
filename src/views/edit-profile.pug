@@ -7,7 +7,7 @@ block content
     else if loggedInUser.avatarUrl === ""
       div 😎
     else
-      img(src="/" + loggedInUser.avatarUrl).avatar
+      img(src=loggedInUser.avatarUrl).avatar
     h3=user.name
   if errorMessage
     span=errorMessage
