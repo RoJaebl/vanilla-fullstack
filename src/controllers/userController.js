@@ -130,9 +130,7 @@ export const finishGithubLogin = async (req, res) => {
   }
 };
 export const logout = (req, res) => {
-  req.session.user = {};
-  req.session.loggedIn = false;
-  req.flash("error", "Bye Bye");
+  req.session.destroy((err) => {});
   return res.redirect("/");
 };
 export const getEdit = (req, res) => {

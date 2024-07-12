@@ -12,7 +12,7 @@
     "build:server": "babel src -d build",
     "build:assets": "webpack --mode=production",
     "dev:server": "nodemon -L",
-    "dev:assets": "webpack --mode=development --watch"
+    "dev:assets": "webpack --mode=development --watch --config ./config/webpack.config.js"
   },
   "author": "",
   "license": "MIT",
